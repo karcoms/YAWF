@@ -1,0 +1,36 @@
+{
+    "versionLabel": "1.0.0",
+    "uuid": "030ee5fc-518b-49e5-b9b2-0700ee92af89",
+    "appKeys": {},
+    "longName": "YetAnotherWatchFace",
+    "versionCode": 1,
+    "capabilities": [
+        ""
+    ],
+    "shortName": "Simplicity",
+    "companyName": "Karthik Nagaraj",
+    "watchapp": {
+        "watchface": true
+    },
+    "resources": {
+        "media": [
+            {
+                "characterRegex": "[:0-9]",
+                "type": "font",
+                "name": "FONT_ROBOTO_BOLD_SUBSET_49",
+                "file": "fonts/Roboto-Bold.ttf"
+            },
+            {
+                "type": "font",
+                "name": "FONT_ROBOTO_CONDENSED_21",
+                "file": "fonts/Roboto-Condensed.ttf"
+            },
+            {
+                "menuIcon": true,
+                "type": "png",
+                "name": "IMAGE_MENU_ICON",
+                "file": "images/menu_icon_simplicity.png"
+            }
+        ]
+    }
+}
