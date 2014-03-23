@@ -1,4 +1,5 @@
 #include "pebble.h"
+#include "pebble_fonts.h"
 
 Window* window;
 TextLayer* text_day_layer;
@@ -45,7 +46,7 @@ void format_day(char* day) {
 
 void handle_tick(struct tm* tick_time, TimeUnits units_changed) {
   // Need to be static because they're used by the system later.
-  static char time_text[] = "00:00:00 XX";
+  static char time_text[] = "00:00";
   static char date_text[16] = "";
   static char month[] = "Xxx";
   static char day[] = "00xx";
@@ -58,24 +59,21 @@ void handle_tick(struct tm* tick_time, TimeUnits units_changed) {
   strftime(month, sizeof(month), "%b", tick_time);
   strftime(day, sizeof(day), "%e", tick_time);
   format_day(day);
-  strftime(year, sizeof(year), "%Y", tick_time);
-  snprintf(date_text, sizeof(date_text), "%s %s, %s", month, day, year);
+  //strftime(year, sizeof(year), "%Y", tick_time);
+  snprintf(date_text, sizeof(date_text), "%s %s", month, day);
   text_layer_set_text(text_date_layer, date_text);
 
-  char* time_format;  
   if (clock_is_24h_style()) {
-    time_format = "%T";
+    strftime(time_text, sizeof(time_text), "%H:%M", tick_time);
   } else {
-    time_format = "%r";
+    strftime(time_text, sizeof(time_text), "%I:%M", tick_time);
   }
-
-  strftime(time_text, sizeof(time_text), time_format, tick_time);
 
   // Kludge to handle lack of non-padded hour format string
   // for twelve hour clock.
-  if (!clock_is_24h_style() && (time_text[0] == '0')) {
-    memmove(time_text, &time_text[1], sizeof(time_text) - 1);
-  }
+  //if (!clock_is_24h_style() && (time_text[0] == '0')) {
+  //  memmove(time_text, &time_text[1], sizeof(time_text) - 1);
+  //}
 
   text_layer_set_text(text_time_layer, time_text);
 }
@@ -92,28 +90,28 @@ void handle_init(void) {
   Layer* window_layer = window_get_root_layer(window);
   
   text_day_of_the_week_layer = text_layer_create(GRect(8, 20, 127, 27));
-  text_layer_set_text_color(text_day_of_the_week_layer, GColorBlack);
-  text_layer_set_background_color(text_day_of_the_week_layer, GColorWhite);
+  text_layer_set_text_color(text_day_of_the_week_layer, GColorWhite);
+  text_layer_set_background_color(text_day_of_the_week_layer, GColorClear);
   text_layer_set_font(text_day_of_the_week_layer, 
-                      fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ROBOTO_CONDENSED_21)));
+                      fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_UBUNTU_MONO_REGULAR_21)));
   layer_add_child(window_layer, text_layer_get_layer(text_day_of_the_week_layer));
 
   text_date_layer = text_layer_create(GRect(8, 48, 144-8, 168-68));
   text_layer_set_text_color(text_date_layer, GColorWhite);
   text_layer_set_background_color(text_date_layer, GColorClear);
-  text_layer_set_font(text_date_layer, fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ROBOTO_CONDENSED_21)));
+  text_layer_set_font(text_date_layer, fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_UBUNTU_MONO_REGULAR_21)));
   layer_add_child(window_layer, text_layer_get_layer(text_date_layer));
-
-  text_time_layer = text_layer_create(GRect(7, 92, 144-7, 168-92));
-  text_layer_set_text_color(text_time_layer, GColorWhite);
-  text_layer_set_background_color(text_time_layer, GColorClear);
-  text_layer_set_font(text_time_layer, fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ROBOTO_CONDENSED_21)));
-  layer_add_child(window_layer, text_layer_get_layer(text_time_layer));
-
-  /*GRect line_frame = GRect(8, 97, 139, 2);
+  
+  GRect line_frame = GRect(8, 85, 130, 2);
   line_layer = layer_create(line_frame);
   layer_set_update_proc(line_layer, line_layer_update_callback);
-  layer_add_child(window_layer, line_layer);*/
+  layer_add_child(window_layer, line_layer);
+
+  text_time_layer = text_layer_create(GRect(5, 92, 137, 168-92));
+  text_layer_set_text_color(text_time_layer, GColorWhite);
+  text_layer_set_background_color(text_time_layer, GColorClear);
+  text_layer_set_font(text_time_layer, fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_LCD_NARROW_35)));
+  layer_add_child(window_layer, text_layer_get_layer(text_time_layer));
 
   tick_timer_service_subscribe(SECOND_UNIT, handle_tick);
   // TODO: Update display here to avoid blank display on launch?

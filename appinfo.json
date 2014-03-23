@@ -7,7 +7,7 @@
     "capabilities": [
         ""
     ],
-    "shortName": "Simplicity",
+    "shortName": "YAWF",
     "companyName": "Karthik Nagaraj",
     "watchapp": {
         "watchface": true
@@ -15,10 +15,26 @@
     "resources": {
         "media": [
             {
-                "characterRegex": "[:0-9]",
+                "characterRegex": "[0-9:]",
                 "type": "font",
-                "name": "FONT_ROBOTO_BOLD_SUBSET_49",
-                "file": "fonts/Roboto-Bold.ttf"
+                "name": "FONT_LCD_NARROW_35",
+                "file": "fonts/lcdnarrow.ttf"
+            },
+            {
+                "type": "font",
+                "name": "FONT_UBUNTU_MONO_REGULAR_21",
+                "file": "fonts/UbuntuMono-Regular.ttf"
+            },
+            {
+                "type": "font",
+                "name": "FONT_PT_MONO_28",
+                "file": "fonts/PTM55FT.ttf"
+            },
+            {
+                "menuIcon": true,
+                "type": "png",
+                "name": "IMAGE_MENU_ICON",
+                "file": "images/menu_icon_simplicity.png"
             },
             {
                 "type": "font",
@@ -26,10 +42,10 @@
                 "file": "fonts/Roboto-Condensed.ttf"
             },
             {
-                "menuIcon": true,
-                "type": "png",
-                "name": "IMAGE_MENU_ICON",
-                "file": "images/menu_icon_simplicity.png"
+                "characterRegex": "[:0-9]",
+                "type": "font",
+                "name": "FONT_ROBOTO_BOLD_SUBSET_49",
+                "file": "fonts/Roboto-Bold.ttf"
             }
         ]
     }
